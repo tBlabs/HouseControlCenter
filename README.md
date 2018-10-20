@@ -1,39 +1,19 @@
-# express.ts
+# EventsManager
 
-This a very basic startup project with `Node.js`, `ES7`, `Typescript` and `express` with `socket.io`.
+It's a host for all my IoT devices. 
 
-There is also basic client connected via socket.
+Internally it's a `express.js` HTTP server with REST API.
 
-*Prepared for Linux environment.*
+Manager utilizes `flows` and `actors`. 
 
-Extra features:
-- Dependency Injection (in `./src/IoC`) with samples
-- Local environment variables (in `.env`)
-- Command line arguments parser (`StartupArgs` class)
-- Some convenient commands (look at `package.json` `scripts` section)
-- Test samples (`jest` inside)
-- `async/await` included, `axios` on board
-- Extra services: `Logger`, `Environment` and `RunMode`
+## Flows
 
-## Before start
+Single flow defines all actions what need to be done in case of some event.
 
-Use `npm i` to install local packages. Use `npm run preinstall` to install global packages.
+Every action and every reaction is a HTTP request.
 
-Add `.env`. You can based on `.env.example`.
+## Actors
 
-## Where to start?
+Flows uses actors like `AirSensor` or `AirPurifier`. We can reach for them through DI container.
 
-In `Main.ts`, `Run()` method. This is the place for your code. Put all dependencies in a constructor (don't forget to add them to IoC `./src/IoC/IoC.ts` and optionally to `Types.ts`).
-
-Use `npm run serve` to build and run your code continuously.
-
-## How to call program with args?
-
-Just call it directly: `node startup.js --foo bar`. 
-Don't do it by npm scripts like `npm run run -- --foo bar`. It may not work.
-
-## How to make this program executable?
-
-Add `#!/usr/bin/env node` at the very begining of startup file (`startup.ts`). This is already done.
-Then call `sudo chmod u+x ./bin/startup.js`.
-Now you can use your script like a regular program. You can call it with `./startup`. No `node startup.js` needed.
+Every actor is a simple class with few methods defining his behavior. It can listen for some request or make some request to external system.
