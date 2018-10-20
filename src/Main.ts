@@ -26,7 +26,7 @@ export class Main
         const socket = socketIo(httpServer);
 
         server.get('/favicon.ico', (req, res) => res.status(204));
-        
+
         server.get('/ping', (req, res) => res.send('pong'));
 
         server.use(express.static(this.ClientDir));
@@ -39,8 +39,13 @@ export class Main
                 socket.emit('data', { foo: "bar", baz: i++ });
             });
         });
-        
+
         const port = 3000;
         httpServer.listen(port, () => console.log('SERVER STARTED @ ' + port));
+
+        process.on('SIGINT', () =>
+        {
+            httpServer.close(() => console.log('SERVER CLOSED'));
+        });
     }
 }

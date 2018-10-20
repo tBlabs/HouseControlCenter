@@ -1,4 +1,4 @@
-# node.ts
+# express.ts
 
 This a very basic startup project with `Node.js`, `ES7`, `Typescript` and `express` with `socket.io`.
 
