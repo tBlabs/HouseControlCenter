@@ -17,3 +17,49 @@ Every action and every reaction is a HTTP request.
 Flows uses actors like `AirSensor` or `AirPurifier`. We can reach for them through DI container.
 
 Every actor is a simple class with few methods defining his behavior. It can listen for some request or make some request to external system.
+
+
+## Flow example 
+
+```
+class SampleFlow
+{
+  ctor(SampleActorA, SampleActorB) { }
+  
+  Init()
+  {
+    sampleActorA.Action(()=>
+    {
+      sampleActorB.Set();
+    })
+  }
+}
+```
+
+## Actor example
+```
+class SampleActor
+{
+  ctor(SampleBoard) { }
+  
+  Action(callback)
+  {
+    board.Sensor.OnEvent(callback)
+  }
+  
+  Set()
+  {
+    board.Actuator.Set()
+  }
+}
+
+```
+
+## Board
+```
+import { Board } from 'BluePill.Client.Lib'
+
+connectionString = '192.168.1.7:3000'
+DIContainer.Bind(SampleBoard).ToConst(new Board(connectionString))
+```
+
