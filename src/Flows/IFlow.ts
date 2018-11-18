@@ -1,4 +1,4 @@
 export interface IFlow
 {
-    Go(): void;
+    Init(): void;
 }
