@@ -3,13 +3,13 @@ import { injectable } from 'inversify';
 import { IBoard } from './IBoard';
 
 @injectable()
-export class DriverC implements IBoard
+export class BoardC implements IBoard
 {
     public readonly IO: Board;
 
     constructor()
     {
-        const connector = new BoardSocketConnector('http://192.168.1.10:3001');
+        const connector = new BoardSocketConnector('http://192.168.1.1:3000');
         this.IO = new Board(connector);
     }
 }

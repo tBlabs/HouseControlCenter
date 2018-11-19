@@ -24,7 +24,7 @@ export class LightFlow implements IFlow
         {
             if (this._lights.IsOff())
             {
-                this._delay.OneSecond(() =>
+                this._delay.FiveSeconds(() =>
                 {
                     this._lights.Off();
                 });

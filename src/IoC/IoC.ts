@@ -21,13 +21,14 @@ import { IFlow } from '../Flows/IFlow';
 // import { AirPurifier } from '../Actors/AirPurifier';
 import { AirDisplay } from '../Actors/AirDisplay';
 // import { BoardA, Dummy } from '../Boards/BoardA';
-import { DriverB } from '../Boards/BoardB';
+import { BoardB } from '../Boards/BoardB';
 import { LightFlow } from '../Flows/LightFlow';
 import { Lights } from '../Actors/Lights';
 import { LightsSwitch } from '../Actors/LightsSwitch';
 import { Delay } from '../Helpers/DelayHelper';
-import { DriverC } from '../Boards/BoardC';
+import { BoardC } from '../Boards/BoardC';
 import { IBoard } from '../Boards/IBoard';
+import { TestFlow } from '../Flows/TestFlow';
 
 const IoC = new Container();
 
@@ -45,17 +46,18 @@ try
     IoC.bind<LightsSwitch>(LightsSwitch).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<Delay>(Delay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(LightFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind<IFlow>(Types.IFlow).to(TestFlow).inSingletonScope().whenTargetIsDefault();
     // IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirDisplay>(AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<BoardA>(BoardA).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<Dummy>(Dummy).toSelf().inSingletonScope().whenTargetIsDefault();
-    const boardB = new DriverB();
-    IoC.bind<IBoard>(DriverB).toConstantValue(boardB).whenTargetIsDefault(); 
+    const boardB = new BoardB();
+    IoC.bind<IBoard>(BoardB).toConstantValue(boardB).whenTargetIsDefault(); 
     IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardB).whenTargetIsDefault();
     // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
-    const boardC = new DriverC();
-    IoC.bind<IBoard>(DriverC).toConstantValue(boardC).whenTargetIsDefault(); 
+    const boardC = new BoardC();
+    IoC.bind<IBoard>(BoardC).toConstantValue(boardC).whenTargetIsDefault(); 
     IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardC).whenTargetIsDefault();
     // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
 }

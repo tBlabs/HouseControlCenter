@@ -3,8 +3,8 @@ import { injectable } from "inversify";
 @injectable()
 export class Delay
 {
-    public OneSecond(callback: ()=>void): void
+    public FiveSeconds(callback: ()=>void): void
     {
-        setTimeout(callback, 1000);
+        setTimeout(callback, 5000);
     }
 }

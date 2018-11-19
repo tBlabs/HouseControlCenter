@@ -1,4 +1,4 @@
-import { DriverB } from "../Boards/BoardB";
+import { BoardB } from "../Boards/BoardB";
 import { IActor } from "./IActor";
 import * as Rx from 'rxjs';
 import { injectable } from "inversify";
@@ -6,7 +6,7 @@ import { injectable } from "inversify";
 @injectable()
 export class LightsSwitch implements IActor
 {
-    constructor(private driver: DriverB)
+    constructor(private driver: BoardB)
     { 
         this.driver.IO.Input1.OnFalling(() => this.lightsSwitch.next(true));
         this.driver.IO.Input2.OnFalling(() => this.delayedOff.next(true));

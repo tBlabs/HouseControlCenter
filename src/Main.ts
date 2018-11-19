@@ -21,6 +21,9 @@ export class Main
             // console.log(i++);
         }, 1000);
 
+        this._boards[0].IO.Display1.Value=1234;
+        this._boards[1].IO.Display1.Value=1234;
+
         this._flows.forEach(f => f.Init());
     }
 }
