@@ -1,0 +1,1 @@
+node ./bin/startup.js

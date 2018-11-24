@@ -1,40 +1,22 @@
-// import { injectable, inject } from "inversify";
-// import { Types } from "../IoC/Types";
+import { injectable, inject } from "inversify";
+import { Sensor, SDS018SocketConnector } from 'air-pollution-sensor-client-lib/bin';
 
-// enum Event
-// {
-//     OnChange,
-//     OnRising
-// }
-// class Sensor
-// {
+@injectable()
+export class AirSensor
+{
+    private onLevelChangeCallback: any;
 
-// }
-// class BluePill
-// {
-//     public Adc1: Sensor;
-// }
-// @injectable()
-// export class AirSensor
-// {
-//     onLevelChangeCallback: any;
-//     constructor(
-//         // @inject(Types.ExpressServer) private _server
-//          private _boardA: BluePill
-//     )
-//     {
-//         _boardA.Adc1.OnChange(val => { this.onLevelChangeCallback(val) })
-//     }
+    constructor()
+    {
+        const connectionString = 'http://192.168.1.100:3005';
+        const connector = new SDS018SocketConnector(connectionString);
+        const sensor = new Sensor(connector);
 
-//     public OnLevelChange(callback: (pm25: number) => void): void
-//     {
-//         this.onLevelChangeCallback = callback;
-//         // this._server.get('/air-sensor/:lvl', (req, res) =>
-//         // {
-//         //     const lvl = req.params.lvl;
-//         //     callback(lvl);
-//         //     res.sendStatus(200);
-//         // });
-        
-//     }
-// }
+        sensor.OnChange((pm10, pm25)=>  this.onLevelChangeCallback(pm10));
+    }
+
+    public OnLevelChange(callback: (pm10: number) => void): void
+    {
+        this.onLevelChangeCallback = callback;
+    }
+}

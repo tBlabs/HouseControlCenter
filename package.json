@@ -40,6 +40,7 @@
         "typescript": "^2.6.2"
     },
     "dependencies": {
+        "air-pollution-sensor-client-lib": "^1.0.0",
         "async-delay": "^1.0.3",
         "asyncawait": "^1.0.7",
         "axios": "^0.17.1",

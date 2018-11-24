@@ -1,7 +1,12 @@
 export class Repeater
 {
-    public static EverySecond(callback)
+    public static EverySecond(callback: (counter: number) => void): void
     {
-        setInterval(callback, 1000);
+        let i = 0;
+        setInterval(() =>
+        {
+            callback(i);
+            i += 1;
+        }, 1000);
     }
 }

@@ -2,6 +2,7 @@ import { injectable, inject, multiInject } from 'inversify';
 import { Types } from './IoC/Types';
 import { IFlow } from './Flows/IFlow';
 import { IBoard } from './Boards/IBoard';
+import { Repeater } from './services/repeater/Repeater';
 
 @injectable()
 export class Main
@@ -14,15 +15,8 @@ export class Main
     public async Start(): Promise<void>
     {
         console.log('start');
-// let i=0;
-        setInterval(() => {
-            // this._boardB.IO.Output1.Toggle();
-            this._boards.forEach(b => b.IO.Output1.Toggle());
-            // console.log(i++);
-        }, 1000);
 
-        this._boards[0].IO.Display1.Value=1234;
-        this._boards[1].IO.Display1.Value=1234;
+        Repeater.EverySecond((c) => this._boards.forEach(b => c % 2 ? b.IO.Output1.On() : b.IO.Output1.Off()));
 
         this._flows.forEach(f => f.Init());
     }

@@ -4,7 +4,7 @@ import * as Rx from 'rxjs';
 import { injectable } from "inversify";
 
 @injectable()
-export class LightsSwitch implements IActor
+export class DoorPanel implements IActor
 {
     constructor(private driver: BoardB)
     { 
@@ -12,12 +12,12 @@ export class LightsSwitch implements IActor
         this.driver.IO.Input2.OnFalling(() => this.delayedOff.next(true));
     }
     
-    public get OnPress(): Rx.Subject<boolean>
+    public get OnMainLampButtonPress(): Rx.Subject<boolean>
     {
         return this.lightsSwitch;
     }
 
-    public get OnDelayedOffPress(): Rx.Subject<boolean>
+    public get OnMainLampDelayedOffButtonPress(): Rx.Subject<boolean>
     {
         return this.delayedOff;
     }

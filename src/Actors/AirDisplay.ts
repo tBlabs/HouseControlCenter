@@ -1,15 +1,16 @@
-import axios from 'axios';
-import { AirDisplayIp } from './addresses';
 import { injectable } from 'inversify';
+import { BoardC } from '../Boards/BoardC';
 
 @injectable()
 export class AirDisplay
 {
-    // boardA = new BluePillClient('192.168.1.12:3000');
+    constructor(private _board: BoardC)
+    { 
+        _board.IO.Display1.Dot = 2;
+    }
 
-    public Print(pm25: number): void
+    public Print(value: number): void
     {
-        // axios.get(AirDisplayIp + '/display1/' + pm25);
-        // this.boardA.Display1.Set(pm25);
+        this._board.IO.Display1.Value = value;
     }
 }

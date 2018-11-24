@@ -24,11 +24,14 @@ import { AirDisplay } from '../Actors/AirDisplay';
 import { BoardB } from '../Boards/BoardB';
 import { LightFlow } from '../Flows/LightFlow';
 import { Lights } from '../Actors/Lights';
-import { LightsSwitch } from '../Actors/LightsSwitch';
+import { DoorPanel } from '../Actors/LightsSwitch';
 import { Delay } from '../Helpers/DelayHelper';
 import { BoardC } from '../Boards/BoardC';
 import { IBoard } from '../Boards/IBoard';
 import { TestFlow } from '../Flows/TestFlow';
+import { AirFlow } from '../Flows/AirFlow';
+import { AirSensor } from '../Actors/AirSensor';
+import { BedPanel } from '../Actors/BedPanel';
 
 const IoC = new Container();
 
@@ -43,11 +46,13 @@ try
     const server = express();
     IoC.bind(Types.ExpressServer).toConstantValue(server);
     IoC.bind<Lights>(Lights).toSelf().inSingletonScope().whenTargetIsDefault();
-    IoC.bind<LightsSwitch>(LightsSwitch).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<DoorPanel>(DoorPanel).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<BedPanel>(BedPanel).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<Delay>(Delay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(LightFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(TestFlow).inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<IFlow>(Types.IFlow).to(AirFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirDisplay>(AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<BoardA>(BoardA).toSelf().inSingletonScope().whenTargetIsDefault();
@@ -67,3 +72,4 @@ catch (ex)
 }
 
 export { IoC };
+ 

@@ -9,7 +9,8 @@ export class BoardC implements IBoard
 
     constructor()
     {
-        const connector = new BoardSocketConnector('http://192.168.1.1:3000');
+        const connector = new BoardSocketConnector('http://192.168.1.102:3000');
+
         this.IO = new Board(connector);
     }
 }

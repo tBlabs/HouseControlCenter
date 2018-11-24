@@ -1,5 +1,5 @@
 import { IFlow } from "./IFlow";
-import { LightsSwitch } from "../Actors/LightsSwitch";
+import { DoorPanel } from "../Actors/LightsSwitch";
 import { Lights } from "../Actors/Lights";
 import { injectable } from "inversify";
 import { Delay } from "../Helpers/DelayHelper";
@@ -17,11 +17,10 @@ export class TestFlow implements IFlow
 
     public Init(): void
     {
-        console.log(TestFlow.name);
         this._boardC.IO.Adc1.OnChange((adc1) =>
         {
             this._boardC.IO.Display1.Value = adc1.Current.Value;
             this._boardB.IO.Pwm4.Value = adc1.Current.Value;
-        }
+        });
     }
 }
