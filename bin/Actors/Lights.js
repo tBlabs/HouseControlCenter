@@ -14,6 +14,13 @@ const inversify_1 = require("inversify");
 let Lights = class Lights {
     constructor(driver) {
         this.driver = driver;
+        this.level = 0;
+    }
+    NextLevel() {
+        this.level++;
+        this.level %= 3;
+        this.driver.IO.Output3.Value = (this.level > 0) ? 1 : 0;
+        this.driver.IO.Output4.Value = (this.level > 1) ? 1 : 0;
     }
     Toggle() {
         this.driver.IO.Output3.Toggle();

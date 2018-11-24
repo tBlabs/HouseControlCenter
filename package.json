@@ -19,7 +19,7 @@
         "lint": "tslint -c tslint.json './src/**/*.{ts,tsx}' --format msbuild",
         "test": "jest --runInBand",
         "build": "tsc -p .",
-        "clean": "rm ./bin -rf",
+        "clean": "rm ./bin -rf && rm package-lock.json -f",
         "autofix": "tslint --fix --project .",
         "publish": "git push origin master"
     },

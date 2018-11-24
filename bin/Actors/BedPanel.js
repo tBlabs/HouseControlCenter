@@ -16,10 +16,15 @@ let BedPanel = class BedPanel {
     constructor(driver) {
         this.driver = driver;
         this.button1 = new Rx.Subject();
+        this.button2 = new Rx.Subject();
         this.driver.IO.Input1.OnFalling(() => this.button1.next(true));
+        this.driver.IO.Input2.OnFalling(() => this.button2.next(true));
     }
     get OnButton1Press() {
         return this.button1;
+    }
+    get OnButton2Press() {
+        return this.button2;
     }
 };
 BedPanel = __decorate([

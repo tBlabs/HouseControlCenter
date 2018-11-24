@@ -23,7 +23,7 @@ let LightFlow = class LightFlow {
     }
     Init() {
         this._bedPanel.OnButton1Press.subscribe(() => {
-            this._lights.Toggle();
+            this._lights.NextLevel();
         });
         this._doorPanel.OnMainLampButtonPress.subscribe(() => {
             this._lights.Toggle();
