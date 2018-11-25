@@ -27,6 +27,7 @@
         "@types/axios": "^0.14.0",
         "@types/dotenv": "^4.0.0",
         "@types/express": "^4.16.0",
+        "@types/git-rev": "^0.2.0",
         "@types/jasmine": "^2.6.3",
         "@types/jest": "^21.1.6",
         "@types/lodash": "^4.14.92",

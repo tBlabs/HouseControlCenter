@@ -4,6 +4,7 @@ import { IFlow } from './Flows/IFlow';
 import { IBoard } from './Boards/IBoard';
 import { Repeater } from './services/repeater/Repeater';
 import * as express from 'express';
+import { Git } from './Utils/Git';
 
 @injectable()
 export class Main
@@ -16,11 +17,13 @@ export class Main
     public async Start(): Promise<void>
     {
         console.log('start');
+        const git = new Git();
+        const ver = await git.Version();
+        console.log('ver:', ver);
 
         const server = express();
 
-
-        console.log('Boards count:', this._boards.length);
+        // console.log('Boards count:', this._boards.length);
         Repeater.EverySecond((c) => this._boards.forEach(b => c % 2 ? b.IO.Output1.On() : b.IO.Output1.Off())); // TODO: move to HeartBeat class
 
         this._flows.forEach(f => f.Init());

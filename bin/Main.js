@@ -16,6 +16,7 @@ const inversify_1 = require("inversify");
 const Types_1 = require("./IoC/Types");
 const Repeater_1 = require("./services/repeater/Repeater");
 const express = require("express");
+const Git_1 = require("./Utils/Git");
 let Main = class Main {
     constructor(_boards, _flows) {
         this._boards = _boards;
@@ -23,8 +24,11 @@ let Main = class Main {
     }
     async Start() {
         console.log('start');
+        const git = new Git_1.Git();
+        const ver = await git.Version();
+        console.log('ver:', ver);
         const server = express();
-        console.log('Boards count:', this._boards.length);
+        // console.log('Boards count:', this._boards.length);
         Repeater_1.Repeater.EverySecond((c) => this._boards.forEach(b => c % 2 ? b.IO.Output1.On() : b.IO.Output1.Off())); // TODO: move to HeartBeat class
         this._flows.forEach(f => f.Init());
         server.get('/detach', (req, res) => {
