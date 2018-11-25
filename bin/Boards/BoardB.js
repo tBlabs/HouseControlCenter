@@ -14,8 +14,8 @@ require("reflect-metadata");
 const bin_1 = require("bluepill-client-library/bin");
 let BoardB = class BoardB {
     constructor() {
-        const connector = new bin_1.BoardSocketConnector('http://192.168.1.101:3000');
-        this.IO = new bin_1.Board(connector);
+        this.Connector = new bin_1.BoardSocketConnector('http://192.168.1.101:3000');
+        this.IO = new bin_1.Board(this.Connector);
     }
 };
 BoardB = __decorate([

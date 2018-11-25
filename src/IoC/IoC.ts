@@ -32,6 +32,7 @@ import { TestFlow } from '../Flows/TestFlow';
 import { AirFlow } from '../Flows/AirFlow';
 import { AirSensor } from '../Actors/AirSensor';
 import { BedPanel } from '../Actors/BedPanel';
+import { BoardA } from '../Boards/BoardA';
 
 const IoC = new Container();
 
@@ -55,16 +56,16 @@ try
     IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirDisplay>(AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<BoardA>(BoardA).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<Dummy>(Dummy).toSelf().inSingletonScope().whenTargetIsDefault();
+
+    const boardA = new BoardA();
+    IoC.bind<IBoard>(BoardA).toConstantValue(boardA).whenTargetIsDefault(); 
+    IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardA).whenTargetIsDefault();
     const boardB = new BoardB();
     IoC.bind<IBoard>(BoardB).toConstantValue(boardB).whenTargetIsDefault(); 
     IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardB).whenTargetIsDefault();
-    // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
     const boardC = new BoardC();
     IoC.bind<IBoard>(BoardC).toConstantValue(boardC).whenTargetIsDefault(); 
     IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardC).whenTargetIsDefault();
-    // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
 }
 catch (ex)
 {

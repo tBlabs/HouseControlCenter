@@ -26,6 +26,7 @@ const TestFlow_1 = require("../Flows/TestFlow");
 const AirFlow_1 = require("../Flows/AirFlow");
 const AirSensor_1 = require("../Actors/AirSensor");
 const BedPanel_1 = require("../Actors/BedPanel");
+const BoardA_1 = require("../Boards/BoardA");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
@@ -47,16 +48,15 @@ try {
     IoC.bind(AirSensor_1.AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirDisplay_1.AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<BoardA>(BoardA).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<Dummy>(Dummy).toSelf().inSingletonScope().whenTargetIsDefault();
+    const boardA = new BoardA_1.BoardA();
+    IoC.bind(BoardA_1.BoardA).toConstantValue(boardA).whenTargetIsDefault();
+    IoC.bind(Types_1.Types.IBoard).toConstantValue(boardA).whenTargetIsDefault();
     const boardB = new BoardB_1.BoardB();
     IoC.bind(BoardB_1.BoardB).toConstantValue(boardB).whenTargetIsDefault();
     IoC.bind(Types_1.Types.IBoard).toConstantValue(boardB).whenTargetIsDefault();
-    // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
     const boardC = new BoardC_1.BoardC();
     IoC.bind(BoardC_1.BoardC).toConstantValue(boardC).whenTargetIsDefault();
     IoC.bind(Types_1.Types.IBoard).toConstantValue(boardC).whenTargetIsDefault();
-    // IoC.bind<IBoard>(Types.IBoard).to(DriverC).inSingletonScope().whenTargetIsDefault();
 }
 catch (ex) {
     console.log('IoC exception:', ex);

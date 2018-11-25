@@ -12,26 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const BoardB_1 = require("../Boards/BoardB");
 const inversify_1 = require("inversify");
 let Lights = class Lights {
-    constructor(driver) {
-        this.driver = driver;
+    constructor(_board) {
+        this._board = _board;
         this.level = 0;
     }
     NextLevel() {
         this.level++;
         this.level %= 3;
-        this.driver.IO.Output3.Value = (this.level > 0) ? 1 : 0;
-        this.driver.IO.Output4.Value = (this.level > 1) ? 1 : 0;
+        this._board.IO.Output3.Value = (this.level > 0) ? 1 : 0;
+        this._board.IO.Output4.Value = (this.level > 1) ? 1 : 0;
     }
     Toggle() {
-        this.driver.IO.Output3.Toggle();
-        this.driver.IO.Output4.Toggle();
+        this._board.IO.Output3.Toggle();
+        this._board.IO.Output4.Toggle();
     }
     Off() {
-        this.driver.IO.Output3.Value = 1;
-        this.driver.IO.Output4.Value = 1;
+        this._board.IO.Output3.Value = 1;
+        this._board.IO.Output4.Value = 1;
+        this._board.IO.Pwm4.Value = 0;
     }
     IsOff() {
-        return this.driver.IO.Output3.Value === 0 ? true : false;
+        return this._board.IO.Output3.Value === 0 ? true : false;
     }
 };
 Lights = __decorate([

@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bin_1 = require("bluepill-client-library/bin");
 const inversify_1 = require("inversify");
+require("reflect-metadata");
+const bin_1 = require("bluepill-client-library/bin");
 let BoardC = class BoardC {
     constructor() {
-        const connector = new bin_1.BoardSocketConnector('http://192.168.1.102:3000');
-        this.IO = new bin_1.Board(connector);
+        this.Connector = new bin_1.BoardSocketConnector('http://192.168.1.102:3000');
+        this.IO = new bin_1.Board(this.Connector);
     }
 };
 BoardC = __decorate([

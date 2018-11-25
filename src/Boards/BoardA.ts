@@ -1,27 +1,19 @@
-// import { Board, BoardSocketConnector } from 'bluepill-client-library/bin';
-// import { decorate, injectable } from "inversify";
-// import { BoardB } from './BoardB';
+import { injectable } from 'inversify';
+import 'reflect-metadata';
+import { Board, BoardSocketConnector } from 'bluepill-client-library/bin';
+import { IBoard } from './IBoard';
+import { IBoardConnector } from 'bluepill-client-library/bin/Connectors/IBoardConnector';
 
-// decorate(injectable(), Board);
+@injectable()
+export class BoardA implements IBoard
+{
+    public readonly IO: Board;
+    public readonly Connector: IBoardConnector;
 
-// @injectable()
-// export class Dummy
-// {
-    
-// }
+    constructor()
+    {
+        this.Connector = new BoardSocketConnector('http://192.168.1.100:3000');
 
-// @injectable()
-// export class BoardA extends Board
-// {
-//     constructor(dummy: Dummy)
-//     {
-//         const boardAConnector = new BoardSocketConnector('http://localhost:3000');
-//         super(boardAConnector);
-//         Object.assign(this, new Board(boardAConnector));
-//     }
-// }
-
-
-// // const boardA = new BoardB();
-// // boardA.io.Input3.Value = 4;
-
+        this.IO = new Board(this.Connector);
+    }
+}
