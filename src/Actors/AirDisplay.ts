@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
-import { BoardC } from '../Boards/BoardC';
+import { BoardA } from '../Boards/BoardA';
 
 @injectable()
 export class AirDisplay
 {
-    constructor(private _board: BoardC)
+    constructor(private _board: BoardA)
     { 
         _board.IO.Display1.Dot = 2;
     }

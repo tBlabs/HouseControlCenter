@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
-const BoardC_1 = require("../Boards/BoardC");
+const BoardA_1 = require("../Boards/BoardA");
 let AirDisplay = class AirDisplay {
     constructor(_board) {
         this._board = _board;
@@ -22,7 +22,7 @@ let AirDisplay = class AirDisplay {
 };
 AirDisplay = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [BoardC_1.BoardC])
+    __metadata("design:paramtypes", [BoardA_1.BoardA])
 ], AirDisplay);
 exports.AirDisplay = AirDisplay;
 //# sourceMappingURL=AirDisplay.js.map

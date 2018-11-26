@@ -1,19 +1,19 @@
-// import axios from 'axios';
-// import { AirPurifierIp } from './addresses';
-// import { injectable } from 'inversify';
+import { injectable } from 'inversify';
+import { BoardA } from '../Boards/BoardA';
 
+@injectable()
+export class AirPurifier
+{
+    constructor(private _boardA: BoardA)
+    { }
 
-// @injectable()
-// export class AirPurifier
-// {
-//     public On(): void
-//     {
-//         // axios.get(AirPurifierIp + '/led1/1');
-//         boardX.output1.on();
-//     }
-
-//     public Off(): void
-//     {
-//         axios.get(AirPurifierIp + '/led1/0');
-//     }
-// }
+    public On(): void
+    {
+        this._boardA.IO.Output6.Off();
+    }
+    
+    public Off(): void
+    {
+        this._boardA.IO.Output6.On();
+    }
+}

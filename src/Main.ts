@@ -16,14 +16,13 @@ export class Main
 
     public async Start(): Promise<void>
     {
-        console.log('start');
+        console.log('HCC START');
         const git = new Git();
         const ver = await git.Version();
         console.log('ver:', ver);
 
         const server = express();
 
-        // console.log('Boards count:', this._boards.length);
         Repeater.EverySecond((c) => this._boards.forEach(b => c % 2 ? b.IO.Output1.On() : b.IO.Output1.Off())); // TODO: move to HeartBeat class
 
         this._flows.forEach(f => f.Init());
@@ -35,6 +34,7 @@ export class Main
             res.send(200);
         });
 
-        server.listen(5000, () => console.log('HCC SERVER STARTED'));
+        const port = 5000;
+        server.listen(port, () => console.log('HCC SERVER STARTED @', port));
     }
 }

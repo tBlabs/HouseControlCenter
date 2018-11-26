@@ -12,34 +12,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const AirSensor_1 = require("../Actors/AirSensor");
 const AirDisplay_1 = require("../Actors/AirDisplay");
-// import { AirPurifier } from "../Actors/AirPurifier";
+const AirPurifier_1 = require("../Actors/AirPurifier");
 let AirFlow = class AirFlow {
-    constructor(_airSensor, _airDisplay
-        // private _airPurifier: AirPurifier
-    ) {
+    constructor(_airSensor, _airDisplay, _airPurifier) {
         this._airSensor = _airSensor;
         this._airDisplay = _airDisplay;
+        this._airPurifier = _airPurifier;
     }
     Init() {
-        this._airSensor.OnLevelChange((pm10) => {
+        this._airSensor.OnLevelChange(pm10 => {
             this._airDisplay.Print(pm10);
-            // if (pm25 > 50)
-            // {
-            //     this._airPurifier.On();
-            // }
-            // else if (pm25 < 45)
-            // {
-            //     this._airPurifier.Off();
-            // }
+            if (pm10 > 40) {
+                this._airPurifier.On();
+            }
+            else if (pm10 < 30) {
+                this._airPurifier.Off();
+            }
         });
     }
 };
 AirFlow = __decorate([
     inversify_1.injectable(),
     __metadata("design:paramtypes", [AirSensor_1.AirSensor,
-        AirDisplay_1.AirDisplay
-        // private _airPurifier: AirPurifier
-    ])
+        AirDisplay_1.AirDisplay,
+        AirPurifier_1.AirPurifier])
 ], AirFlow);
 exports.AirFlow = AirFlow;
 //# sourceMappingURL=AirFlow.js.map

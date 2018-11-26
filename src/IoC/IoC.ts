@@ -16,11 +16,7 @@ import { IStartupArgs } from '../services/environment/IStartupArgs';
 import { StartupArgs } from '../services/environment/StartupArgs';
 import * as express from 'express';
 import { IFlow } from '../Flows/IFlow';
-// import { AirFlow } from '../Flows/AirFlow';
-// import { AirSensor } from '../Actors/AirSensor';
-// import { AirPurifier } from '../Actors/AirPurifier';
 import { AirDisplay } from '../Actors/AirDisplay';
-// import { BoardA, Dummy } from '../Boards/BoardA';
 import { BoardB } from '../Boards/BoardB';
 import { LightFlow } from '../Flows/LightFlow';
 import { Lights } from '../Actors/Lights';
@@ -33,6 +29,7 @@ import { AirFlow } from '../Flows/AirFlow';
 import { AirSensor } from '../Actors/AirSensor';
 import { BedPanel } from '../Actors/BedPanel';
 import { BoardA } from '../Boards/BoardA';
+import { AirPurifier } from '../Actors/AirPurifier';
 
 const IoC = new Container();
 
@@ -54,7 +51,7 @@ try
     IoC.bind<IFlow>(Types.IFlow).to(TestFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(AirFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirDisplay>(AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
 
     const boardA = new BoardA();

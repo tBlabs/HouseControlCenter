@@ -8,6 +8,13 @@ class Repeater {
             i += 1;
         }, 1000);
     }
+    static Every100ms(callback) {
+        let i = 0;
+        setInterval(() => {
+            callback(i);
+            i += 1;
+        }, 100);
+    }
 }
 exports.Repeater = Repeater;
 //# sourceMappingURL=Repeater.js.map

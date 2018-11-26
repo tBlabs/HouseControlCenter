@@ -11,11 +11,7 @@ const Main_1 = require("../Main");
 const SampleService_1 = require("./../services/_samples/SampleService");
 const StartupArgs_1 = require("../services/environment/StartupArgs");
 const express = require("express");
-// import { AirFlow } from '../Flows/AirFlow';
-// import { AirSensor } from '../Actors/AirSensor';
-// import { AirPurifier } from '../Actors/AirPurifier';
 const AirDisplay_1 = require("../Actors/AirDisplay");
-// import { BoardA, Dummy } from '../Boards/BoardA';
 const BoardB_1 = require("../Boards/BoardB");
 const LightFlow_1 = require("../Flows/LightFlow");
 const Lights_1 = require("../Actors/Lights");
@@ -27,6 +23,7 @@ const AirFlow_1 = require("../Flows/AirFlow");
 const AirSensor_1 = require("../Actors/AirSensor");
 const BedPanel_1 = require("../Actors/BedPanel");
 const BoardA_1 = require("../Boards/BoardA");
+const AirPurifier_1 = require("../Actors/AirPurifier");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
@@ -46,7 +43,7 @@ try {
     IoC.bind(Types_1.Types.IFlow).to(TestFlow_1.TestFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IFlow).to(AirFlow_1.AirFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirSensor_1.AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
-    // IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(AirPurifier_1.AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirDisplay_1.AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     const boardA = new BoardA_1.BoardA();
     IoC.bind(BoardA_1.BoardA).toConstantValue(boardA).whenTargetIsDefault();

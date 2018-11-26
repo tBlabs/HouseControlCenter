@@ -28,11 +28,29 @@ let TestFlow = class TestFlow {
         this._boardA.IO.Input6.OnFalling((s) => this._boardA.IO.Output5.Toggle());
         this._boardA.IO.Adc1.OnChange(a => this._boardA.IO.Pwm1.Value = a.Current.Value);
         this._boardA.IO.Adc2.OnChange(a => this._boardA.IO.Pwm2.Value = a.Current.Value);
-        // this._boardC.IO.Adc1.OnChange((adc1) =>
-        // {
-        //     this._boardC.IO.Display1.Value = adc1.Current.Value;
-        //     this._boardB.IO.Pwm4.Value = adc1.Current.Value;
-        // });
+        // this._boardC.IO.Adc1.OnChange(s => this._boardC.IO.Display1.Value = s.Current.Value);
+        let t = 0;
+        let cc = 0;
+        // if (0)
+        this._boardC.IO.Adc1.OnChange(s => {
+            // this._boardC.IO.Display1.Value = s.Current.Value;
+            if (s.Current.Value > 50)
+                cc = 1;
+            else
+                cc = 0;
+        });
+        this._boardC.IO.Display1.Dot = 2;
+        setInterval(() => {
+            if (cc) {
+                this._boardA.IO.Output5.On();
+                t++;
+                this._boardC.IO.Display1.Value = t;
+            }
+            else {
+                t = 0;
+                this._boardA.IO.Output5.Off();
+            }
+        }, 100);
     }
 };
 TestFlow = __decorate([
