@@ -8,7 +8,7 @@ const RunMode_1 = require("./../services/runMode/RunMode");
 const Environment_1 = require("./../services/environment/Environment");
 const Logger_1 = require("../services/logger/Logger");
 const Main_1 = require("../Main");
-const SampleService_1 = require("./../services/_samples/SampleService");
+const HeartBeat_1 = require("../HeartBeat");
 const StartupArgs_1 = require("../services/environment/StartupArgs");
 const express = require("express");
 const AirDisplay_1 = require("../Actors/AirDisplay");
@@ -24,11 +24,19 @@ const AirSensor_1 = require("../Actors/AirSensor");
 const BedPanel_1 = require("../Actors/BedPanel");
 const BoardA_1 = require("../Boards/BoardA");
 const AirPurifier_1 = require("../Actors/AirPurifier");
+const DeskPanel_1 = require("../Actors/DeskPanel");
+const DateTimeProvider_1 = require("../services/DateTimeProvider/DateTimeProvider");
+const Repeater_1 = require("../services/repeater/Repeater");
+const Clock_1 = require("../Helpers/Clock/Clock");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
-    IoC.bind(SampleService_1.SampleService).toSelf().whenTargetIsDefault(); // can be injected in constructor with any special helpers
     IoC.bind(Types_1.Types.IEnvironment).to(Environment_1.Environment).whenTargetIsDefault();
+    IoC.bind(Types_1.Types.IDateTimeProvider).to(DateTimeProvider_1.DateTimeProvider).whenTargetIsDefault();
+    IoC.bind(Types_1.Types.IRepeater).to(Repeater_1.Repeater).inTransientScope().whenTargetIsDefault();
+    IoC.bind(DateTimeProvider_1.DateTimeProvider).toSelf().whenTargetIsDefault();
+    IoC.bind(HeartBeat_1.HeartBeat).toSelf().whenTargetIsDefault();
+    IoC.bind(Clock_1.Clock).toSelf().inTransientScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IRunMode).to(RunMode_1.RunMode).whenTargetIsDefault();
     IoC.bind(Types_1.Types.ILogger).to(Logger_1.Logger).inSingletonScope().whenTargetIsDefault();
     IoC.bind(Main_1.Main).toSelf().inSingletonScope().whenTargetIsDefault();
@@ -37,6 +45,7 @@ try {
     IoC.bind(Types_1.Types.ExpressServer).toConstantValue(server);
     IoC.bind(Lights_1.Lights).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(LightsSwitch_1.DoorPanel).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(DeskPanel_1.DeskPanel).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(BedPanel_1.BedPanel).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(DelayHelper_1.Delay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IFlow).to(LightFlow_1.LightFlow).inSingletonScope().whenTargetIsDefault();

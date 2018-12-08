@@ -10,6 +10,7 @@ import { IEnvironment } from './../services/environment/IEnvironment';
 import { Environment } from './../services/environment/Environment';
 import { Logger } from '../services/logger/Logger';
 import { Main } from '../Main';
+import { HeartBeat } from "../HeartBeat";
 import { ISample } from '../services/_samples/ISample';
 import { SampleService } from './../services/_samples/SampleService';
 import { IStartupArgs } from '../services/environment/IStartupArgs';
@@ -30,13 +31,22 @@ import { AirSensor } from '../Actors/AirSensor';
 import { BedPanel } from '../Actors/BedPanel';
 import { BoardA } from '../Boards/BoardA';
 import { AirPurifier } from '../Actors/AirPurifier';
+import { DeskPanel } from '../Actors/DeskPanel';
+import { DateTimeProvider } from '../services/DateTimeProvider/DateTimeProvider';
+import { IDateTimeProvider } from '../services/DateTimeProvider/IDateTimeProvider';
+import { Repeater, IRepeater } from '../services/repeater/Repeater';
+import { Clock } from '../Helpers/Clock/Clock';
 
 const IoC = new Container();
 
 try
 {
-    IoC.bind<SampleService>(SampleService).toSelf().whenTargetIsDefault(); // can be injected in constructor with any special helpers
     IoC.bind<IEnvironment>(Types.IEnvironment).to(Environment).whenTargetIsDefault();
+    IoC.bind<IDateTimeProvider>(Types.IDateTimeProvider).to(DateTimeProvider).whenTargetIsDefault();
+    IoC.bind<IRepeater>(Types.IRepeater).to(Repeater).inTransientScope().whenTargetIsDefault();
+    IoC.bind<DateTimeProvider>(DateTimeProvider).toSelf().whenTargetIsDefault();
+    IoC.bind<HeartBeat>(HeartBeat).toSelf().whenTargetIsDefault();
+    IoC.bind<Clock>(Clock).toSelf().inTransientScope().whenTargetIsDefault();
     IoC.bind<IRunMode>(Types.IRunMode).to(RunMode).whenTargetIsDefault();
     IoC.bind<ILogger>(Types.ILogger).to(Logger).inSingletonScope().whenTargetIsDefault();
     IoC.bind<Main>(Main).toSelf().inSingletonScope().whenTargetIsDefault();
@@ -44,8 +54,11 @@ try
     const server = express();
     IoC.bind(Types.ExpressServer).toConstantValue(server);
     IoC.bind<Lights>(Lights).toSelf().inSingletonScope().whenTargetIsDefault();
+
     IoC.bind<DoorPanel>(DoorPanel).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<DeskPanel>(DeskPanel).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<BedPanel>(BedPanel).toSelf().inSingletonScope().whenTargetIsDefault();
+
     IoC.bind<Delay>(Delay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(LightFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(TestFlow).inSingletonScope().whenTargetIsDefault();

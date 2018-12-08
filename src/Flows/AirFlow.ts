@@ -15,15 +15,15 @@ export class AirFlow implements IFlow
 
     public Init(): void
     {
-        this._airSensor.OnLevelChange(pm10 =>
+        this._airSensor.OnLevelChange(pm25 =>
         {
-            this._airDisplay.Print(pm10);
+            this._airDisplay.Print(pm25);
 
-            if (pm10 > 40)
+            if (pm25 >= 300)
             {
                 this._airPurifier.On();
             }
-            else if (pm10 < 30)
+            else if (pm25 <= 150)
             {
                 this._airPurifier.Off();
             }

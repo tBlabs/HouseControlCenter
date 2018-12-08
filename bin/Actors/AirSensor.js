@@ -16,7 +16,10 @@ let AirSensor = class AirSensor {
         const connectionString = 'http://192.168.1.100:3005';
         const connector = new bin_1.SDS018SocketConnector(connectionString);
         const sensor = new bin_1.Sensor(connector);
-        sensor.OnChange((pm10, pm25) => this.onLevelChangeCallback(pm10));
+        sensor.OnChange((pm10, pm25) => {
+            if (this.onLevelChangeCallback)
+                this.onLevelChangeCallback(pm25);
+        });
     }
     OnLevelChange(callback) {
         this.onLevelChangeCallback = callback;

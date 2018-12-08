@@ -14,13 +14,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const Types_1 = require("./IoC/Types");
-const Repeater_1 = require("./services/repeater/Repeater");
 const express = require("express");
 const Git_1 = require("./Utils/Git");
+const Lights_1 = require("./Actors/Lights");
+const HeartBeat_1 = require("./HeartBeat");
+const DateTimeProvider_1 = require("./services/DateTimeProvider/DateTimeProvider");
 let Main = class Main {
-    constructor(_boards, _flows) {
+    constructor(_boards, _flows, _lights, _time, _heartBeat) {
         this._boards = _boards;
         this._flows = _flows;
+        this._lights = _lights;
+        this._time = _time;
+        this._heartBeat = _heartBeat;
     }
     async Start() {
         console.log('HCC START');
@@ -28,7 +33,20 @@ let Main = class Main {
         const ver = await git.Version();
         console.log('ver:', ver);
         const server = express();
-        Repeater_1.Repeater.EverySecond((c) => this._boards.forEach(b => c % 2 ? b.IO.Output1.On() : b.IO.Output1.Off())); // TODO: move to HeartBeat class
+        const shortcuts = {
+            '/ping': (req, res) => console.log('ping'),
+            '/lights': (req, res) => this._lights.NextLevel(),
+            '/time': (req, res) => res.send(this._time.Now.toString())
+        };
+        const shortcutsUrls = Object.keys(shortcuts);
+        shortcutsUrls.forEach(url => {
+            server.get(url, (req, res) => {
+                const action = shortcuts[url];
+                action(req, res);
+                res.send(202);
+            });
+        });
+        this._heartBeat.BlinkBluePillsLeds();
         this._flows.forEach(f => f.Init());
         server.get('/detach', (req, res) => {
             this._boards.forEach(b => b.Connector.Disconnect());
@@ -42,7 +60,9 @@ Main = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.multiInject(Types_1.Types.IBoard)),
     __param(1, inversify_1.multiInject(Types_1.Types.IFlow)),
-    __metadata("design:paramtypes", [Array, Array])
+    __metadata("design:paramtypes", [Array, Array, Lights_1.Lights,
+        DateTimeProvider_1.DateTimeProvider,
+        HeartBeat_1.HeartBeat])
 ], Main);
 exports.Main = Main;
 //# sourceMappingURL=Main.js.map

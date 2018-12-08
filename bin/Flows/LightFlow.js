@@ -12,37 +12,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const LightsSwitch_1 = require("../Actors/LightsSwitch");
 const Lights_1 = require("../Actors/Lights");
 const inversify_1 = require("inversify");
-const DelayHelper_1 = require("../Helpers/DelayHelper");
-const BedPanel_1 = require("../Actors/BedPanel");
+const DeskPanel_1 = require("../Actors/DeskPanel");
+const Clock_1 = require("../Helpers/Clock/Clock");
+const Moment_1 = require("../Helpers/Clock/Moment");
+const Time_1 = require("../Helpers/Clock/Time");
+const Day_1 = require("../Helpers/Clock/Day");
 let LightFlow = class LightFlow {
-    constructor(_doorPanel, _bedPanel, _lights, _delay) {
+    constructor(_doorPanel, _deskPanel, _lights, _clock) {
         this._doorPanel = _doorPanel;
-        this._bedPanel = _bedPanel;
+        this._deskPanel = _deskPanel;
         this._lights = _lights;
-        this._delay = _delay;
+        this._clock = _clock;
     }
     Init() {
-        this._bedPanel.OnButton1Press.subscribe(() => {
+        const mondayToFriday = [Day_1.Day.Monday, Day_1.Day.Tuesday, Day_1.Day.Wednesday, Day_1.Day.Thursday, Day_1.Day.Friday];
+        const wakeUpMoment = new Moment_1.Moment(new Time_1.Time(7, 30), mondayToFriday);
+        this._clock.At(wakeUpMoment, () => {
+            this._lights.OnForOneHour();
+        });
+        this._deskPanel.OnButton1Press.subscribe(() => {
             this._lights.NextLevel();
         });
         this._doorPanel.OnMainLampButtonPress.subscribe(() => {
             this._lights.Toggle();
         });
         this._doorPanel.OnMainLampDelayedOffButtonPress.subscribe(() => {
-            if (this._lights.IsOff()) {
-                this._delay.FiveSeconds(() => {
-                    this._lights.Off();
-                });
-            }
+            this._lights.OffWithDelay(15);
         });
     }
 };
 LightFlow = __decorate([
     inversify_1.injectable(),
     __metadata("design:paramtypes", [LightsSwitch_1.DoorPanel,
-        BedPanel_1.BedPanel,
+        DeskPanel_1.DeskPanel,
         Lights_1.Lights,
-        DelayHelper_1.Delay])
+        Clock_1.Clock])
 ], LightFlow);
 exports.LightFlow = LightFlow;
 //# sourceMappingURL=LightFlow.js.map

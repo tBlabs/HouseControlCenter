@@ -8,8 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 let Delay = class Delay {
+    Of(delayInSeconds, callback) {
+        setTimeout(callback, 1000 * delayInSeconds);
+    }
     FiveSeconds(callback) {
-        setTimeout(callback, 5000);
+        setTimeout(callback, 1000 * 5);
     }
 };
 Delay = __decorate([

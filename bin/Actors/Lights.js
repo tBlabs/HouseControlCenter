@@ -11,16 +11,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const BoardB_1 = require("../Boards/BoardB");
 const inversify_1 = require("inversify");
+const DelayHelper_1 = require("../Helpers/DelayHelper");
 let Lights = class Lights {
-    constructor(_board) {
+    constructor(_board, _delay) {
         this._board = _board;
+        this._delay = _delay;
         this.level = 0;
     }
+    OffWithDelay(delay) {
+        if (this.IsOn()) {
+            this._delay.Of(delay, () => {
+                this.Off();
+            });
+        }
+    }
     NextLevel() {
+        switch (this.level) {
+            case 0:
+                this._board.IO.Pwm4.Value = 1000;
+                this._board.IO.Output3.Value = 1;
+                this._board.IO.Output4.Value = 1;
+                break;
+            case 1:
+                this._board.IO.Pwm4.Value = 0;
+                this._board.IO.Output3.Value = 0;
+                this._board.IO.Output4.Value = 1;
+                break;
+            case 2:
+                this._board.IO.Pwm4.Value = 0;
+                this._board.IO.Output3.Value = 0;
+                this._board.IO.Output4.Value = 0;
+                break;
+        }
         this.level++;
         this.level %= 3;
-        this._board.IO.Output3.Value = (this.level > 0) ? 1 : 0;
-        this._board.IO.Output4.Value = (this.level > 1) ? 1 : 0;
+    }
+    On() {
+        this._board.IO.Output3.Value = 0;
+        this._board.IO.Output4.Value = 0;
+    }
+    OnForOneHour() {
+        this.On();
+        const oneHour = 60 * 60;
+        this._delay.Of(oneHour, () => {
+            this.Off();
+        });
     }
     Toggle() {
         this._board.IO.Output3.Toggle();
@@ -31,13 +66,14 @@ let Lights = class Lights {
         this._board.IO.Output4.Value = 1;
         this._board.IO.Pwm4.Value = 0;
     }
-    IsOff() {
+    IsOn() {
         return this._board.IO.Output3.Value === 0 ? true : false;
     }
 };
 Lights = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [BoardB_1.BoardB])
+    __metadata("design:paramtypes", [BoardB_1.BoardB,
+        DelayHelper_1.Delay])
 ], Lights);
 exports.Lights = Lights;
 //# sourceMappingURL=Lights.js.map
