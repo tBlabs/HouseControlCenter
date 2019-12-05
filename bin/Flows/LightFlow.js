@@ -12,39 +12,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const LightsSwitch_1 = require("../Actors/LightsSwitch");
 const Lights_1 = require("../Actors/Lights");
 const inversify_1 = require("inversify");
-const DeskPanel_1 = require("../Actors/DeskPanel");
+const MainPanel_1 = require("../Actors/MainPanel");
 const Clock_1 = require("../Helpers/Clock/Clock");
-const Moment_1 = require("../Helpers/Clock/Moment");
-const Time_1 = require("../Helpers/Clock/Time");
-const Day_1 = require("../Helpers/Clock/Day");
+const WindowLamp_1 = require("../Actors/WindowLamp");
 let LightFlow = class LightFlow {
-    constructor(_doorPanel, _deskPanel, _lights, _clock) {
+    constructor(_doorPanel, _mainPanel, _windowLamp, _lights, _clock) {
         this._doorPanel = _doorPanel;
-        this._deskPanel = _deskPanel;
+        this._mainPanel = _mainPanel;
+        this._windowLamp = _windowLamp;
         this._lights = _lights;
         this._clock = _clock;
     }
     Init() {
-        const mondayToFriday = [Day_1.Day.Monday, Day_1.Day.Tuesday, Day_1.Day.Wednesday, Day_1.Day.Thursday, Day_1.Day.Friday];
-        const wakeUpMoment = new Moment_1.Moment(new Time_1.Time(7, 30), mondayToFriday);
-        this._clock.At(wakeUpMoment, () => {
-            this._lights.OnForOneHour();
-        });
-        this._deskPanel.OnButton1Press.subscribe(() => {
-            this._lights.NextLevel();
-        });
-        this._doorPanel.OnMainLampButtonPress.subscribe(() => {
-            this._lights.Toggle();
-        });
-        this._doorPanel.OnMainLampDelayedOffButtonPress.subscribe(() => {
-            this._lights.OffWithDelay(15);
-        });
+        // const mondayToFriday = [Day.Monday, Day.Tuesday, Day.Wednesday, Day.Thursday, Day.Friday];
+        // const wakeUpMoment = new Moment(new Time(7, 30), mondayToFriday);
+        // this._clock.At(wakeUpMoment, () =>
+        // {
+        //     this._lights.OnForOneHour();
+        // });
+        // this._mainPanel.Knob1.subscribe(val =>
+        // {
+        //     this._windowLamp.SetLightPercent(val);
+        // });
+        // this._mainPanel.OnButton1Press.subscribe(() =>
+        // {
+        //     this._lights.NextLevel();
+        // });
+        // this._doorPanel.OnMainLampButtonPress.subscribe(() =>
+        // {
+        //     this._lights.Toggle();
+        // });
+        // this._doorPanel.OnMainLampDelayedOffButtonPress.subscribe(() =>
+        // {
+        //     this._lights.OffWithDelay(15);
+        // });
     }
 };
 LightFlow = __decorate([
     inversify_1.injectable(),
     __metadata("design:paramtypes", [LightsSwitch_1.DoorPanel,
-        DeskPanel_1.DeskPanel,
+        MainPanel_1.MainPanel,
+        WindowLamp_1.WindowLamp,
         Lights_1.Lights,
         Clock_1.Clock])
 ], LightFlow);

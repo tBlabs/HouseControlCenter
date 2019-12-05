@@ -9,19 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const BoardA_1 = require("../Boards/BoardA");
 const inversify_1 = require("inversify");
-require("reflect-metadata");
-const bin_1 = require("bluepill-client-library/bin");
-let BoardA = class BoardA {
-    constructor() {
-        // this.Connector = new BoardSocketConnector('http://192.168.1.100:3000');
-        this.Connector = new bin_1.BoardSocketConnector(process.env.BOARD_A_ADDR);
-        this.IO = new bin_1.Board(this.Connector);
+let BackgroundLight = class BackgroundLight {
+    constructor(driver) {
+        this.driver = driver;
+    }
+    TurnOnForSomeTime() {
+        this.driver.IO.Pwm1.Value = this.driver.IO.Pwm1.MaxValue;
+        let pwm = this.driver.IO.Pwm1.MaxValue;
+        const timer = setInterval(() => {
+            this.driver.IO.Pwm1.Value = pwm;
+            pwm -= 1;
+            if (pwm <= 0)
+                clearInterval(timer);
+        }, 200);
     }
 };
-BoardA = __decorate([
+BackgroundLight = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], BoardA);
-exports.BoardA = BoardA;
-//# sourceMappingURL=BoardA.js.map
+    __metadata("design:paramtypes", [BoardA_1.BoardA])
+], BackgroundLight);
+exports.BackgroundLight = BackgroundLight;
+//# sourceMappingURL=BackgroundLight.js.map

@@ -13,7 +13,7 @@ const inversify_1 = require("inversify");
 const bin_1 = require("air-pollution-sensor-client-lib/bin");
 let AirSensor = class AirSensor {
     constructor() {
-        const connectionString = 'http://192.168.1.100:3005';
+        const connectionString = process.env.SDS018_DAEMON_ADDR;
         const connector = new bin_1.SDS018SocketConnector(connectionString);
         const sensor = new bin_1.Sensor(connector);
         sensor.OnChange((pm10, pm25) => {

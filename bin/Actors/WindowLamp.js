@@ -9,27 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Rx = require("rxjs");
-const inversify_1 = require("inversify");
 const BoardA_1 = require("../Boards/BoardA");
-let DeskPanel = class DeskPanel {
+const inversify_1 = require("inversify");
+let WindowLamp = class WindowLamp {
     constructor(driver) {
         this.driver = driver;
-        this.button1 = new Rx.Subject();
-        this.button2 = new Rx.Subject();
-        this.driver.IO.Input1.OnFalling(() => this.button1.next(true));
-        this.driver.IO.Input2.OnFalling(() => this.button2.next(true));
     }
-    get OnButton1Press() {
-        return this.button1;
-    }
-    get OnButton2Press() {
-        return this.button2;
+    SetLightPercent(valuePercent) {
+        const pwm = valuePercent * 10;
+        // console.log('pwm', pwm);
+        this.driver.IO.Pwm2.Value = pwm >= 1024 ? 1024 : pwm;
     }
 };
-DeskPanel = __decorate([
+WindowLamp = __decorate([
     inversify_1.injectable(),
     __metadata("design:paramtypes", [BoardA_1.BoardA])
-], DeskPanel);
-exports.DeskPanel = DeskPanel;
-//# sourceMappingURL=DeskPanel.js.map
+], WindowLamp);
+exports.WindowLamp = WindowLamp;
+//# sourceMappingURL=WindowLamp.js.map

@@ -1,0 +1,7 @@
+
+
+HorizontalWall(At(0,0), 300) 
+    .Serialize
+    .Render
+
+LightSensor(At(100,0))

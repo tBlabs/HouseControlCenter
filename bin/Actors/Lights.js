@@ -42,9 +42,12 @@ let Lights = class Lights {
                 this._board.IO.Output3.Value = 0;
                 this._board.IO.Output4.Value = 0;
                 break;
+            case 3:
+                this.Off();
+                break;
         }
         this.level++;
-        this.level %= 3;
+        this.level %= 4;
     }
     On() {
         this._board.IO.Output3.Value = 0;

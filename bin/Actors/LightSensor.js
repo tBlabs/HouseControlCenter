@@ -10,18 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
-require("reflect-metadata");
-const bin_1 = require("bluepill-client-library/bin");
-let BoardA = class BoardA {
-    constructor() {
-        // this.Connector = new BoardSocketConnector('http://192.168.1.100:3000');
-        this.Connector = new bin_1.BoardSocketConnector(process.env.BOARD_A_ADDR);
-        this.IO = new bin_1.Board(this.Connector);
+const BoardA_1 = require("../Boards/BoardA");
+let LightSensor = class LightSensor {
+    constructor(driver) {
+        this.driver = driver;
+        this.COMPLETELY_DARK = 30;
+        this.MAX_LIGHT = 410;
+        this.driver.IO.Adc3.OnChange((adc) => {
+            const cur = adc.Current.Value;
+            if (this.onChangeCallback)
+                this.onChangeCallback(cur);
+        });
+    }
+    OnChange(callback) {
+        this.onChangeCallback = callback;
     }
 };
-BoardA = __decorate([
+LightSensor = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], BoardA);
-exports.BoardA = BoardA;
-//# sourceMappingURL=BoardA.js.map
+    __metadata("design:paramtypes", [BoardA_1.BoardA])
+], LightSensor);
+exports.LightSensor = LightSensor;
+//# sourceMappingURL=LightSensor.js.map

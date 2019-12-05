@@ -21,7 +21,7 @@
         "build": "tsc -p .",
         "clean": "rm ./bin -rf && rm package-lock.json -f",
         "autofix": "tslint --fix --project .",
-        "publish": "git push origin master"
+        "publish": "git add . && git commit -m \"changes\" && git push origin master"
     },
     "devDependencies": {
         "@types/axios": "^0.14.0",
@@ -46,6 +46,8 @@
         "asyncawait": "^1.0.7",
         "axios": "^0.17.1",
         "bluepill-client-library": "^1.0.8",
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.5",
         "dotenv": "^4.0.0",
         "express": "^4.16.4",
         "git-rev": "^0.2.1",

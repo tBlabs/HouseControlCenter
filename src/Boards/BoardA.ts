@@ -12,7 +12,8 @@ export class BoardA implements IBoard
 
     constructor()
     {
-        this.Connector = new BoardSocketConnector('http://192.168.1.100:3000');
+        // this.Connector = new BoardSocketConnector('http://192.168.1.100:3000');
+        this.Connector = new BoardSocketConnector(process.env.BOARD_A_ADDR);
 
         this.IO = new Board(this.Connector);
     }

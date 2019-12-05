@@ -3,6 +3,7 @@ import { Types } from './IoC/Types';
 import { IFlow } from './Flows/IFlow';
 import { IBoard } from './Boards/IBoard';
 import * as express from 'express';
+import * as cors from 'cors';
 import { Git } from './Utils/Git';
 import { Lights } from './Actors/Lights';
 import { HeartBeat } from './HeartBeat';
@@ -14,44 +15,27 @@ export class Main
     constructor(
         @multiInject(Types.IBoard) private _boards: IBoard[],
         @multiInject(Types.IFlow) private _flows: IFlow[],
-        private _lights: Lights,
         private _time: DateTimeProvider,
         private _heartBeat: HeartBeat)
     { }
 
     public async Start(): Promise<void>
     {
-        console.log('HCC START');
+        console.log('HOUSE CONTROL CENTER START');
 
         const git = new Git();
         const ver = await git.Version();
         console.log('ver:', ver);
 
         const server = express();
-
-        const shortcuts =
-        {
-            '/ping': (req, res) => console.log('ping'),
-            '/lights': (req, res) => this._lights.NextLevel(),
-            '/time': (req, res) => res.send(this._time.Now.toString()   )
-        }
-
-        const shortcutsUrls = Object.keys(shortcuts);
-        shortcutsUrls.forEach(url =>
-        {
-            server.get(url, (req, res) =>
-            {
-                const action = shortcuts[url];
-
-                action(req, res);
-
-                res.send(202);
-            });
-        });
+        server.use(cors());
+        server.get('/ping', (req, res) => res.send('pong'));
+        server.get('/version', (req, res) => res.send(ver));
 
         this._heartBeat.BlinkBluePillsLeds();
 
         this._flows.forEach(f => f.Init());
+
 
         server.get('/detach', (req, res) =>
         {
@@ -61,6 +45,6 @@ export class Main
         });
 
         const port = 5000;
-        server.listen(port, () => console.log('HCC SERVER STARTED @', port));
+        server.listen(port, () => console.log('HOUSE CONTROL CENTER SERVER STARTED @', port));
     }
 }
