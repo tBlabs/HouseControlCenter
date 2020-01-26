@@ -10,19 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
-const BoardA_1 = require("../Boards/BoardA");
+const UsbDisplay_1 = require("./UsbDisplay");
 let AirDisplay = class AirDisplay {
-    constructor(_board) {
-        this._board = _board;
-        _board.IO.Display1.Dot = 2;
+    constructor(
+    // private _board: BoardA
+    _display) {
+        this._display = _display;
+        // _board.IO.Display1.Dot = 2;
     }
-    Print(value) {
-        this._board.IO.Display1.Value = value;
+    PrintPm25(value) {
+        // this._board.IO.Display1.Value = value;
+        this._display.Print(value / 10);
     }
 };
 AirDisplay = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [BoardA_1.BoardA])
+    __metadata("design:paramtypes", [UsbDisplay_1.UsbDisplay])
 ], AirDisplay);
 exports.AirDisplay = AirDisplay;
 //# sourceMappingURL=AirDisplay.js.map

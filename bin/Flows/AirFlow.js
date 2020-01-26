@@ -21,7 +21,7 @@ let AirFlow = class AirFlow {
     }
     Init() {
         this._airSensor.OnLevelChange(pm25 => {
-            this._airDisplay.Print(pm25);
+            this._airDisplay.PrintPm25(pm25);
             if (pm25 >= 300) {
                 this._airPurifier.On();
             }

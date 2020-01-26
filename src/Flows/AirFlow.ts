@@ -17,7 +17,7 @@ export class AirFlow implements IFlow
     {
         this._airSensor.OnLevelChange(pm25 =>
         {
-            this._airDisplay.Print(pm25);
+            this._airDisplay.PrintPm25(pm25);
 
             if (pm25 >= 300)
             {

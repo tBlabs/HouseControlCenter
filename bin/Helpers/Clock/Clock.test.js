@@ -19,5 +19,5 @@
 //         .?????????         IT IS NOT POSSIBLE TO TEST THAT
 //     const clock = new Clock();
 //     clock.At(someMoment, ()=>{ done(); })
-// }); 
+// });
 //# sourceMappingURL=Clock.test.js.map

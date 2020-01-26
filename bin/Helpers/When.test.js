@@ -18,5 +18,5 @@
 //     when.ItIs(TimeTo.WakeUp, () => {});
 //     when.CheckMoments();
 //     // Then
-// }); 
+// });
 //# sourceMappingURL=When.test.js.map

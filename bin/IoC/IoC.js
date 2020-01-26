@@ -32,6 +32,7 @@ const WindowLamp_1 = require("../Actors/WindowLamp");
 const LightSensor_1 = require("../Actors/LightSensor");
 const AfterLightFlow_1 = require("../Flows/AfterLightFlow");
 const BackgroundLight_1 = require("../Actors/BackgroundLight");
+const UsbDisplay_1 = require("../Actors/UsbDisplay");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
@@ -58,6 +59,7 @@ try {
     IoC.bind(Types_1.Types.IFlow).to(AfterLightFlow_1.AfterLightFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirSensor_1.AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirPurifier_1.AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(UsbDisplay_1.UsbDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirDisplay_1.AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(WindowLamp_1.WindowLamp).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(LightSensor_1.LightSensor).toSelf().inSingletonScope().whenTargetIsDefault();

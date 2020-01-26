@@ -14,5 +14,5 @@
 // }
 // const test = new CallbacksList<Action<string>>();
 // test.Add(()=>{});
-// test.RunAll("foo");a 
+// test.RunAll("foo");a
 //# sourceMappingURL=CallbackEmitter.js.map

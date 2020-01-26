@@ -20,5 +20,5 @@
 //     // Then
 //     expect(timeRecorder.LastSample).toBe(5);
 //     expect(timeRecorder.TodayDuration).toBe(5);
-// }); 
+// });
 //# sourceMappingURL=Recorder.test.js.map

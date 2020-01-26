@@ -20,5 +20,5 @@
 //     }
 //     obj.OnAction(()=>{
 //     })
-// }); 
+// });
 //# sourceMappingURL=CallbackEmitter.test.js.map

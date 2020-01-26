@@ -38,6 +38,7 @@ import { WindowLamp } from '../Actors/WindowLamp';
 import { LightSensor } from '../Actors/LightSensor';
 import { AfterLightFlow } from '../Flows/AfterLightFlow';
 import { BackgroundLight } from '../Actors/BackgroundLight';
+import { UsbDisplay } from '../Actors/UsbDisplay';
 
 const IoC = new Container();
 
@@ -68,6 +69,7 @@ try
     IoC.bind<IFlow>(Types.IFlow).to(AfterLightFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<UsbDisplay>(UsbDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirDisplay>(AirDisplay).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<WindowLamp>(WindowLamp).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<LightSensor>(LightSensor).toSelf().inSingletonScope().whenTargetIsDefault();

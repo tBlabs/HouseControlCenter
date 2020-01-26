@@ -8,5 +8,5 @@
 // function ReturnInOrder<T, TColl>(_this: ISetup<T>, collection: TColl): void
 // {
 //     _this.returns(next);
-// } 
+// }
 //# sourceMappingURL=MoqExtensions.js.map
