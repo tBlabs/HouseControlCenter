@@ -1,5 +1,5 @@
-import { injectable } from 'inversify';
 import 'reflect-metadata';
+import { injectable } from 'inversify';
 import { Board, BoardSocketConnector } from 'bluepill-client-library/bin';
 import { IBoard } from './IBoard';
 import { IBoardConnector } from 'bluepill-client-library/bin/Connectors/IBoardConnector';

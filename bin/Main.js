@@ -19,30 +19,36 @@ const cors = require("cors");
 const Git_1 = require("./Utils/Git");
 const HeartBeat_1 = require("./HeartBeat");
 const DateTimeProvider_1 = require("./services/DateTimeProvider/DateTimeProvider");
+const Clock_1 = require("./Helpers/Clock/Clock");
+const MusicPlayer_1 = require("./Actors/MusicPlayer");
 let Main = class Main {
-    constructor(_boards, _flows, _time, _heartBeat) {
+    constructor(_boards, _flows, _time, _clock, _music, _heartBeat) {
         this._boards = _boards;
         this._flows = _flows;
         this._time = _time;
+        this._clock = _clock;
+        this._music = _music;
         this._heartBeat = _heartBeat;
     }
     async Start() {
-        console.log('HOUSE CONTROL CENTER START');
+        const appName = 'HOUSE CONTROL CENTER';
+        console.log(appName + ' START');
         const git = new Git_1.Git();
-        const ver = await git.Version();
-        console.log('ver:', ver);
+        const appVersion = await git.Version();
+        console.log('ver:', appVersion);
         const server = express();
         server.use(cors());
-        server.get('/ping', (req, res) => res.send('pong'));
-        server.get('/version', (req, res) => res.send(ver));
-        this._heartBeat.BlinkBluePillsLeds();
+        server.get('/', (req, res) => res.send(appName + ' ver.' + appVersion));
+        server.get('/ping', (req, res) => res.send(appName + ' pong'));
+        server.get('/version', (req, res) => res.send(appVersion));
+        // this._heartBeat.BlinkBluePillsLeds();
         this._flows.forEach(f => f.Init());
         server.get('/detach', (req, res) => {
             this._boards.forEach(b => b.Connector.Disconnect());
-            res.send(200);
+            res.sendStatus(201);
         });
         const port = 5000;
-        server.listen(port, () => console.log('HOUSE CONTROL CENTER SERVER STARTED @', port));
+        server.listen(port, () => console.log(appName + ' SERVER STARTED @', port));
     }
 };
 Main = __decorate([
@@ -50,6 +56,8 @@ Main = __decorate([
     __param(0, inversify_1.multiInject(Types_1.Types.IBoard)),
     __param(1, inversify_1.multiInject(Types_1.Types.IFlow)),
     __metadata("design:paramtypes", [Array, Array, DateTimeProvider_1.DateTimeProvider,
+        Clock_1.Clock,
+        MusicPlayer_1.MusicPlayer,
         HeartBeat_1.HeartBeat])
 ], Main);
 exports.Main = Main;

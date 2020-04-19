@@ -39,6 +39,9 @@ import { LightSensor } from '../Actors/LightSensor';
 import { AfterLightFlow } from '../Flows/AfterLightFlow';
 import { BackgroundLight } from '../Actors/BackgroundLight';
 import { UsbDisplay } from '../Actors/UsbDisplay';
+import { MusicPlayer } from '../Actors/MusicPlayer';
+import { MusicFlow } from '../Flows/MusicFlow';
+import { MorningFlow } from '../Flows/MorningFlow';
 
 const IoC = new Container();
 
@@ -49,7 +52,8 @@ try
     IoC.bind<IRepeater>(Types.IRepeater).to(Repeater).inTransientScope().whenTargetIsDefault();
     IoC.bind<DateTimeProvider>(DateTimeProvider).toSelf().whenTargetIsDefault();
     IoC.bind<HeartBeat>(HeartBeat).toSelf().whenTargetIsDefault();
-    IoC.bind<Clock>(Clock).toSelf().inTransientScope().whenTargetIsDefault();
+    IoC.bind<Clock>(Clock).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<MusicPlayer>(MusicPlayer).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<IRunMode>(Types.IRunMode).to(RunMode).whenTargetIsDefault();
     IoC.bind<ILogger>(Types.ILogger).to(Logger).inSingletonScope().whenTargetIsDefault();
     IoC.bind<Main>(Main).toSelf().inSingletonScope().whenTargetIsDefault();
@@ -67,6 +71,8 @@ try
     IoC.bind<IFlow>(Types.IFlow).to(TestFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(AirFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<IFlow>(Types.IFlow).to(AfterLightFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind<IFlow>(Types.IFlow).to(MusicFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind<IFlow>(Types.IFlow).to(MorningFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirSensor>(AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<AirPurifier>(AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<UsbDisplay>(UsbDisplay).toSelf().inSingletonScope().whenTargetIsDefault();

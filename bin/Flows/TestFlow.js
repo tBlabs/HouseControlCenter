@@ -27,10 +27,10 @@ let TestFlow = class TestFlow {
         // this._clock.At(new Moment(new Time(15, 4), [Day.Saturday]), (m)=>{
         //     console.log(m);
         // });
-        this._boardA.IO.Input1.OnFalling((s) => this._boardA.IO.Output2.Toggle());
-        this._boardA.IO.Input2.OnFalling((s) => this._boardA.IO.Output3.Toggle());
-        this._boardA.IO.Input5.OnFalling((s) => this._boardA.IO.Output4.Toggle());
-        this._boardA.IO.Input6.OnFalling((s) => this._boardA.IO.Output5.Toggle());
+        // this._boardA.IO.Input1.OnFalling((s) => this._boardA.IO.Output2.Toggle());
+        // this._boardA.IO.Input2.OnFalling((s) => this._boardA.IO.Output3.Toggle());
+        // this._boardA.IO.Input5.OnFalling((s) => this._boardA.IO.Output4.Toggle());
+        // this._boardA.IO.Input6.OnFalling((s) => this._boardA.IO.Output5.Toggle());
         // this._boardA.IO.Adc1.OnChange(a => this._boardA.IO.Pwm1.Value = a.Current.Value);
         // this._boardA.IO.Adc2.OnChange(a => this._boardA.IO.Pwm2.Value = a.Current.Value);
         //     let t = 0;
@@ -48,7 +48,7 @@ let TestFlow = class TestFlow {
         //             cc = 0;
         //             this._boardA.IO.Pwm2.Value = 0;
         //         }
-        //     });
+        //     }); 
         //     this._boardC.IO.Display1.Dot = 2;
         //     setInterval(() =>
         //     {

@@ -8,6 +8,11 @@ import { Git } from './Utils/Git';
 import { Lights } from './Actors/Lights';
 import { HeartBeat } from './HeartBeat';
 import { DateTimeProvider } from './services/DateTimeProvider/DateTimeProvider';
+import { Clock } from './Helpers/Clock/Clock';
+import { Moment } from './Helpers/Clock/Moment';
+import { Time } from './Helpers/Clock/Time';
+import { MusicPlayer } from './Actors/MusicPlayer';
+import { Day } from './Helpers/Clock/Day';
 
 @injectable()
 export class Main
@@ -16,23 +21,27 @@ export class Main
         @multiInject(Types.IBoard) private _boards: IBoard[],
         @multiInject(Types.IFlow) private _flows: IFlow[],
         private _time: DateTimeProvider,
+        private _clock: Clock,
+        private _music: MusicPlayer,
         private _heartBeat: HeartBeat)
     { }
 
     public async Start(): Promise<void>
     {
-        console.log('HOUSE CONTROL CENTER START');
+        const appName = 'HOUSE CONTROL CENTER';
+        console.log(appName + ' START');
 
         const git = new Git();
-        const ver = await git.Version();
-        console.log('ver:', ver);
+        const appVersion = await git.Version();
+        console.log('ver:', appVersion);
 
         const server = express();
         server.use(cors());
-        server.get('/ping', (req, res) => res.send('pong'));
-        server.get('/version', (req, res) => res.send(ver));
+        server.get('/', (req, res) => res.send(appName + ' ver.' + appVersion));
+        server.get('/ping', (req, res) => res.send(appName + ' pong'));
+        server.get('/version', (req, res) => res.send(appVersion));
 
-        this._heartBeat.BlinkBluePillsLeds();
+        // this._heartBeat.BlinkBluePillsLeds();
 
         this._flows.forEach(f => f.Init());
 
@@ -41,10 +50,10 @@ export class Main
         {
             this._boards.forEach(b => b.Connector.Disconnect());
 
-            res.send(200);
+            res.sendStatus(201);
         });
 
         const port = 5000;
-        server.listen(port, () => console.log('HOUSE CONTROL CENTER SERVER STARTED @', port));
+        server.listen(port, () => console.log(appName + ' SERVER STARTED @', port));
     }
 }

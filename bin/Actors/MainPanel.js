@@ -13,42 +13,49 @@ const Rx = require("rxjs");
 const inversify_1 = require("inversify");
 const BoardA_1 = require("../Boards/BoardA");
 let MainPanel = class MainPanel {
-    constructor(driver) {
-        this.driver = driver;
-        this.button1 = new Rx.Subject();
-        this.button2 = new Rx.Subject();
-        this.adc1 = new Rx.Subject();
-        // this.driver.IO.Input1.OnFalling(() => this.button1.next(true));
-        // this.driver.IO.Input2.OnFalling(() => this.button2.next(true));
-        // let adc1prevVal = 0; 
-        // this.driver.IO.Display1.Value = 0;
-        // this.driver.IO.Adc2.OnChange((adc) => console.log(adc.Current.Value));
-        // this.driver.IO.Adc1.OnChange((adc) =>
-        // {
-        //     // console.log(adc);
-        //     const cur = adc.Current.Value;
-        //     // console.log(cur); 
-        //     driver.IO.Display1.Value = cur;
-        //     if (Math.abs(cur-adc1prevVal)>2)
-        //     {
-        //     //     adc1prevVal=cur;
-        //     //     console.log(adc.Current.Value);
-        //         const percent = this.ToPercent(adc.Current.Value, this.driver.IO.Adc1.MaxValue)
-        //         this.adc1.next(percent);
-        //     } 
-        // });
+    // private adc1 = new Rx.Subject<number>();
+    constructor(_driver) {
+        this._driver = _driver;
+        this.Button1Press = new Rx.Subject();
+        this.Button2Press = new Rx.Subject();
+        this.Button3Press = new Rx.Subject();
+        this.Button4Press = new Rx.Subject();
+        this.Button5Press = new Rx.Subject();
+        this.Button6Press = new Rx.Subject();
+        this.Button7Press = new Rx.Subject();
+        this._driver.IO.Input1.OnKeyPress(() => {
+            // console.log('BTN 1 PRESS');
+            this.Button1Press.next();
+        });
+        this._driver.IO.Input2.OnKeyPress(() => {
+            // console.log('BTN 2 PRESS');
+            this.Button2Press.next();
+        });
+        this._driver.IO.Input3.OnFalling(() => {
+            // console.log('BTN 3 PRESS');
+            this.Button3Press.next();
+        });
+        this._driver.IO.Input4.OnKeyPress(() => {
+            // console.log('BTN 4 PRESS');
+            this.Button4Press.next();
+        });
+        this._driver.IO.Input5.OnKeyPress(() => {
+            // console.log('BTN 5 PRESS');
+            this.Button5Press.next();
+        });
+        this._driver.IO.Input6.OnKeyPress(() => {
+            // console.log('BTN 6 PRESS');
+            this.Button6Press.next();
+        });
+        this._driver.IO.Input7.OnKeyPress(() => {
+            // console.log('BTN 7 PRESS');
+            this.Button7Press.next();
+        });
     }
-    ToPercent(value, max) {
-        return (value * 100) / max;
-    }
-    get OnButton1Press() {
-        return this.button1;
-    }
-    get OnButton2Press() {
-        return this.button2;
-    }
-    get Knob1() {
-        return this.adc1;
+    set Display(value) {
+        this._driver.IO.Display1.Dot = 0;
+        this._driver.IO.Pwm1.Value = 820;
+        this._driver.IO.Display1.Value = value;
     }
 };
 MainPanel = __decorate([

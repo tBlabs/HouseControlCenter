@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const inversify_1 = require("inversify");
 require("reflect-metadata");
+const inversify_1 = require("inversify");
 const bin_1 = require("bluepill-client-library/bin");
 let BoardA = class BoardA {
     constructor() {

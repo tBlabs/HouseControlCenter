@@ -33,6 +33,9 @@ const LightSensor_1 = require("../Actors/LightSensor");
 const AfterLightFlow_1 = require("../Flows/AfterLightFlow");
 const BackgroundLight_1 = require("../Actors/BackgroundLight");
 const UsbDisplay_1 = require("../Actors/UsbDisplay");
+const MusicPlayer_1 = require("../Actors/MusicPlayer");
+const MusicFlow_1 = require("../Flows/MusicFlow");
+const MorningFlow_1 = require("../Flows/MorningFlow");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
@@ -41,7 +44,8 @@ try {
     IoC.bind(Types_1.Types.IRepeater).to(Repeater_1.Repeater).inTransientScope().whenTargetIsDefault();
     IoC.bind(DateTimeProvider_1.DateTimeProvider).toSelf().whenTargetIsDefault();
     IoC.bind(HeartBeat_1.HeartBeat).toSelf().whenTargetIsDefault();
-    IoC.bind(Clock_1.Clock).toSelf().inTransientScope().whenTargetIsDefault();
+    IoC.bind(Clock_1.Clock).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(MusicPlayer_1.MusicPlayer).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IRunMode).to(RunMode_1.RunMode).whenTargetIsDefault();
     IoC.bind(Types_1.Types.ILogger).to(Logger_1.Logger).inSingletonScope().whenTargetIsDefault();
     IoC.bind(Main_1.Main).toSelf().inSingletonScope().whenTargetIsDefault();
@@ -57,6 +61,8 @@ try {
     IoC.bind(Types_1.Types.IFlow).to(TestFlow_1.TestFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IFlow).to(AirFlow_1.AirFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(Types_1.Types.IFlow).to(AfterLightFlow_1.AfterLightFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind(Types_1.Types.IFlow).to(MusicFlow_1.MusicFlow).inSingletonScope().whenTargetIsDefault();
+    IoC.bind(Types_1.Types.IFlow).to(MorningFlow_1.MorningFlow).inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirSensor_1.AirSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(AirPurifier_1.AirPurifier).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(UsbDisplay_1.UsbDisplay).toSelf().inSingletonScope().whenTargetIsDefault();

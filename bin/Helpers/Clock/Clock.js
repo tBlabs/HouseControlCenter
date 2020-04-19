@@ -14,17 +14,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const Types_1 = require("../../IoC/Types");
+class TimeAction {
+    constructor(Time, Action) {
+        this.Time = Time;
+        this.Action = Action;
+    }
+}
+exports.TimeAction = TimeAction;
 let Clock = class Clock {
     constructor(_repeater, _dateTimeProvider) {
         this._repeater = _repeater;
         this._dateTimeProvider = _dateTimeProvider;
+        this.actions = [];
+        this._repeater.EveryMinute(() => {
+            this.actions.forEach(a => {
+                if (a.Time.IsItNow(_dateTimeProvider.Now)) {
+                    a.Action(a.Time);
+                }
+            });
+        });
     }
     At(moment, callback) {
-        this._repeater.EveryMinute(() => {
-            if (moment.IsItNow(this._dateTimeProvider.Now)) {
-                callback(moment);
-            }
-        });
+        this.actions.push(new TimeAction(moment, callback));
     }
 };
 Clock = __decorate([

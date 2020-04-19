@@ -1,40 +1,26 @@
-// import { IFlow } from "./IFlow";
-// import { injectable } from "inversify";
+import { IFlow } from "./IFlow";
+import { injectable } from "inversify";
+import { Clock } from "../Helpers/Clock/Clock";
+import { MusicPlayer } from "../Actors/MusicPlayer";
+import { Moment } from "../Helpers/Clock/Moment";
+import { Time } from "../Helpers/Clock/Time";
+import { Day } from "../Helpers/Clock/Day";
 
-// @injectable()
-// export class MorningFlow implements IFlow
-// {
-//     constructor(
-//         private _cron,
-//         private _bedPanel,
-//         private _musicPlayer)
-//     { }
+@injectable()
+export class MorningFlow implements IFlow
+{
+    constructor(
+        private _clock: Clock,
+        private _music: MusicPlayer)
+    { }
 
-//     alerts = [
-//         { d: [1, 2, 3, 4, 5], h: 7, m: 30, e: ['lightsOn'] },
-//         { d: [1, 2, 3, 4, 5], h: 7, m: 40, e: ['musicOn'] },
-//         { d: [1, 2, 3, 4, 5], h: 9, m: 30, e: ['lightsOff', 'musicOff'] },
-//     ]
+    public Init(): void
+    {
+        const wakeUpTime = new Moment(new Time(9, 0), [Day.Monday, Day.Tuesday, Day.Wednesday, Day.Thursday, Day.Friday]);
 
-//     public Go(): void
-//     {
-//         this._clock.At('wakeup', (t) =>
-//         {
-
-//         })
-
-//         this._cron.At(config.wakeUpTime, () =>
-//         {
-//             this._musicPlayer.VolumeSlowRise();
-//             this._musicPlayer.PlayMorningPlaylist();
-//         });
-
-//         this._bedPanel.MusicStop((event) =>
-//         {
-//             if (event == "onPress")
-//                 this._musicPlayer.Stop();
-//             else if (event == "onLongPress")
-//                 this._musicPlayer.SlowStop();
-//         });
-//     }
-// }
+        this._clock.At(wakeUpTime, async ()=>{
+         
+            await this._music.Play("morning.list");
+        });
+    }
+}
