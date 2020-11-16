@@ -10,34 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
-const AirDisplay_1 = require("../Actors/AirDisplay");
-const LightSensor_1 = require("../Actors/LightSensor");
-const BackgroundLight_1 = require("../Actors/BackgroundLight");
+const InternalIO_1 = require("../Boards/InternalIO");
+const Lamp_1 = require("../Actors/Lamp");
+const Sequencer_1 = require("../Utils/Sequencer");
 let AfterLightFlow = class AfterLightFlow {
-    constructor(_lightSensor, _backgroundLight, _airDisplay) {
-        this._lightSensor = _lightSensor;
-        this._backgroundLight = _backgroundLight;
-        this._airDisplay = _airDisplay;
-        this.allow = false;
+    constructor(_io, _lamp) {
+        this._io = _io;
+        this._lamp = _lamp;
     }
     Init() {
-        this._lightSensor.OnChange(level => {
-            // this._airDisplay.Print(level);
-            if (this.allow && (level < 20)) {
-                this.allow = false;
-                this._backgroundLight.TurnOnForSomeTime();
-            }
-            if (level > 50) {
-                this.allow = true;
-            }
-        });
+        let seq = new Sequencer_1.Sequencer();
+        seq.Range(1, 150, 5, 15)
+            .Step(150, 3000)
+            .Range(150, 1, 1, 50)
+            .Step(0, 0);
+        seq.OnChange = async (v) => {
+            this._lamp.SetPower(v);
+        };
+        this._io.OnInput1Change = (s) => {
+            if (s)
+                seq.Start();
+            else
+                seq.Break(0);
+        };
     }
 };
 AfterLightFlow = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [LightSensor_1.LightSensor,
-        BackgroundLight_1.BackgroundLight,
-        AirDisplay_1.AirDisplay])
+    __metadata("design:paramtypes", [InternalIO_1.InternalIO,
+        Lamp_1.Lamp])
 ], AfterLightFlow);
 exports.AfterLightFlow = AfterLightFlow;
 //# sourceMappingURL=AfterLightFlow.js.map

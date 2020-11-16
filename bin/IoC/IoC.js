@@ -36,6 +36,8 @@ const UsbDisplay_1 = require("../Actors/UsbDisplay");
 const MusicPlayer_1 = require("../Actors/MusicPlayer");
 const MusicFlow_1 = require("../Flows/MusicFlow");
 const MorningFlow_1 = require("../Flows/MorningFlow");
+const InternalIO_1 = require("../Boards/InternalIO");
+const Lamp_1 = require("../Actors/Lamp");
 const IoC = new inversify_1.Container();
 exports.IoC = IoC;
 try {
@@ -70,6 +72,8 @@ try {
     IoC.bind(WindowLamp_1.WindowLamp).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(LightSensor_1.LightSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind(BackgroundLight_1.BackgroundLight).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(Lamp_1.Lamp).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind(InternalIO_1.InternalIO).toSelf().inSingletonScope().whenTargetIsDefault();
     const boardA = new BoardA_1.BoardA();
     IoC.bind(BoardA_1.BoardA).toConstantValue(boardA).whenTargetIsDefault();
     IoC.bind(Types_1.Types.IBoard).toConstantValue(boardA).whenTargetIsDefault();
@@ -79,6 +83,7 @@ try {
     const boardC = new BoardC_1.BoardC();
     IoC.bind(BoardC_1.BoardC).toConstantValue(boardC).whenTargetIsDefault();
     IoC.bind(Types_1.Types.IBoard).toConstantValue(boardC).whenTargetIsDefault();
+    // IoC.bind<IBoard>(Types.IO).toSin(InternalIO).whenTargetIsDefault();
 }
 catch (ex) {
     console.log('IoC exception:', ex);

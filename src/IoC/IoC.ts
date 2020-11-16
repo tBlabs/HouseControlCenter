@@ -42,6 +42,8 @@ import { UsbDisplay } from '../Actors/UsbDisplay';
 import { MusicPlayer } from '../Actors/MusicPlayer';
 import { MusicFlow } from '../Flows/MusicFlow';
 import { MorningFlow } from '../Flows/MorningFlow';
+import { InternalIO } from '../Boards/InternalIO';
+import { Lamp } from '../Actors/Lamp';
 
 const IoC = new Container();
 
@@ -80,6 +82,9 @@ try
     IoC.bind<WindowLamp>(WindowLamp).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<LightSensor>(LightSensor).toSelf().inSingletonScope().whenTargetIsDefault();
     IoC.bind<BackgroundLight>(BackgroundLight).toSelf().inSingletonScope().whenTargetIsDefault();
+    IoC.bind<Lamp>(Lamp).toSelf().inSingletonScope().whenTargetIsDefault();
+    
+    IoC.bind<InternalIO>(InternalIO).toSelf().inSingletonScope().whenTargetIsDefault();
 
     const boardA = new BoardA();
     IoC.bind<IBoard>(BoardA).toConstantValue(boardA).whenTargetIsDefault(); 
@@ -90,6 +95,7 @@ try
     const boardC = new BoardC();
     IoC.bind<IBoard>(BoardC).toConstantValue(boardC).whenTargetIsDefault(); 
     IoC.bind<IBoard>(Types.IBoard).toConstantValue(boardC).whenTargetIsDefault();
+    // IoC.bind<IBoard>(Types.IO).toSin(InternalIO).whenTargetIsDefault();
 }
 catch (ex)
 {

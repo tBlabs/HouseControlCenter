@@ -3,6 +3,7 @@ import { IBoardConnector } from "bluepill-client-library/bin/Connectors/IBoardCo
 
 export interface IBoard
 { 
-    IO: Board;
-    Connector: IBoardConnector;
+    IO?: Board;
+    Connector?: IBoardConnector;
+    Init(): void;
 }

@@ -13,6 +13,11 @@ import { Moment } from './Helpers/Clock/Moment';
 import { Time } from './Helpers/Clock/Time';
 import { MusicPlayer } from './Actors/MusicPlayer';
 import { Day } from './Helpers/Clock/Day';
+import * as SocketIoClient from 'socket.io-client';
+import Axios from 'axios';
+import { SequenceId } from 'moq.ts/lib/sequence-id';
+import { Sequencer } from './Utils/Sequencer';
+import { InternalIO } from './Boards/InternalIO';
 
 @injectable()
 export class Main
@@ -23,6 +28,7 @@ export class Main
         private _time: DateTimeProvider,
         private _clock: Clock,
         private _music: MusicPlayer,
+        private _io: InternalIO,
         private _heartBeat: HeartBeat)
     { }
 
@@ -30,6 +36,10 @@ export class Main
     {
         const appName = 'HOUSE CONTROL CENTER';
         console.log(appName + ' START');
+
+
+     
+
 
         const git = new Git();
         const appVersion = await git.Version();
@@ -43,15 +53,17 @@ export class Main
 
         // this._heartBeat.BlinkBluePillsLeds();
 
+        // this._boards.forEach(b => b.Init());
+        this._io.Init();
         this._flows.forEach(f => f.Init());
 
 
-        server.get('/detach', (req, res) =>
-        {
-            this._boards.forEach(b => b.Connector.Disconnect());
+        // server.get('/detach', (req, res) =>
+        // {
+        //     this._boards.forEach(b => b.Connector.Disconnect());
 
-            res.sendStatus(201);
-        });
+        //     res.sendStatus(201);
+        // });
 
         const port = 5000;
         server.listen(port, () => console.log(appName + ' SERVER STARTED @', port));

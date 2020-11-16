@@ -21,13 +21,15 @@ const HeartBeat_1 = require("./HeartBeat");
 const DateTimeProvider_1 = require("./services/DateTimeProvider/DateTimeProvider");
 const Clock_1 = require("./Helpers/Clock/Clock");
 const MusicPlayer_1 = require("./Actors/MusicPlayer");
+const InternalIO_1 = require("./Boards/InternalIO");
 let Main = class Main {
-    constructor(_boards, _flows, _time, _clock, _music, _heartBeat) {
+    constructor(_boards, _flows, _time, _clock, _music, _io, _heartBeat) {
         this._boards = _boards;
         this._flows = _flows;
         this._time = _time;
         this._clock = _clock;
         this._music = _music;
+        this._io = _io;
         this._heartBeat = _heartBeat;
     }
     async Start() {
@@ -42,11 +44,14 @@ let Main = class Main {
         server.get('/ping', (req, res) => res.send(appName + ' pong'));
         server.get('/version', (req, res) => res.send(appVersion));
         // this._heartBeat.BlinkBluePillsLeds();
+        // this._boards.forEach(b => b.Init());
+        this._io.Init();
         this._flows.forEach(f => f.Init());
-        server.get('/detach', (req, res) => {
-            this._boards.forEach(b => b.Connector.Disconnect());
-            res.sendStatus(201);
-        });
+        // server.get('/detach', (req, res) =>
+        // {
+        //     this._boards.forEach(b => b.Connector.Disconnect());
+        //     res.sendStatus(201);
+        // });
         const port = 5000;
         server.listen(port, () => console.log(appName + ' SERVER STARTED @', port));
     }
@@ -58,6 +63,7 @@ Main = __decorate([
     __metadata("design:paramtypes", [Array, Array, DateTimeProvider_1.DateTimeProvider,
         Clock_1.Clock,
         MusicPlayer_1.MusicPlayer,
+        InternalIO_1.InternalIO,
         HeartBeat_1.HeartBeat])
 ], Main);
 exports.Main = Main;
